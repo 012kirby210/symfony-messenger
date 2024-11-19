@@ -50,7 +50,7 @@ class AddPonkaToImageToHandler implements MessageHandlerInterface, LoggerAwareIn
             return;
         }
 
-        if (rand(0, 10) < 7) {
+        if (true || rand(0, 10) < 7) {
             throw new \Exception(('Some random failure'));
         }
         $updatedContents = $this->ponkaficator->ponkafy(
