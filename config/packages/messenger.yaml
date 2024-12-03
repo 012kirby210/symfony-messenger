@@ -3,18 +3,26 @@ framework:
         # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
         failure_transport: failed
 
+        # La priorité est définie en parallélisant les queues
+        # en différenciant les messages par queues
+        # et en indiquant au worker quel est l'ordre de traitement des queues
+        # php bin/console messenger:consume async_priority_high, async
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
             async:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 retry_strategy:
                     delay: 500
+            async_priority_high:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    queue_name: high
             failed: 'doctrine://default?queue_name=failed'
             # sync: 'sync://'
 
         routing:
             # Route your messages to the transports
-            'App\Message\AddPonkaToImage': async
+            'App\Message\AddPonkaToImage': async_priority_high
             'App\Message\DeletePhotoFile': async
         buses:
             messenger.bus.default:
