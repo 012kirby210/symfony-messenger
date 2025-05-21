@@ -2,11 +2,8 @@
 
 namespace App\MessageHandler;
 
-use App\Message\AddPonkaToImage;
 use App\Message\DeleteImagePost;
-use App\Message\DeletePhotoFile;
 use App\Photo\PhotoFileManager;
-use App\Photo\PhotoPonkaficator;
 use App\Repository\ImagePostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerAwareInterface;
@@ -48,11 +45,13 @@ class DeleteImagePostHandler implements MessageHandlerInterface, LoggerAwareInte
             }
         }
 
-        $deletePhotoFile = new DeletePhotoFile($imagePost->getFilename());
-        $this->messageBus->dispatch($deletePhotoFile);
+//        $deletePhotoFile = new DeletePhotoFile($imagePost->getFilename());
+//        $this->messageBus->dispatch($deletePhotoFile);
 
         $this->entityManager->remove($imagePost);
         $this->entityManager->flush();
+
+
 
     }
 }
